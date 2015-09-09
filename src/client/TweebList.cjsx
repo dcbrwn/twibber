@@ -7,7 +7,7 @@
   renderTweebs: () ->
     @props.posts.map (post, index) ->
       <Tweeb
-        key={post.moment}
+        key={post._id}
         user={post.user}
         moment={post.moment}
         message={post.message}
