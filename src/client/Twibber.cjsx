@@ -33,6 +33,7 @@
 
   render: () ->
     <div>
+      <TwibberBotController/>
       <header>
         <div className="center-text">
           <h1>Feed</h1>
