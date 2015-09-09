@@ -34,9 +34,11 @@
     <div>
       <TwibberBotController/>
       <header>
-        <div className="center-text">
-          <h1>Feed</h1>
-          <p className="text-muted">recent tweebs</p>
+        <div className="center-text page-header">
+          <h1>
+            Feed<br/>
+            <small>recent tweebs</small>
+          </h1>
         </div>
       </header>
       <TweebInputForm onTweebSubmit={@handleTweebSubmit}/>

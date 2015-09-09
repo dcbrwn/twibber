@@ -26,6 +26,6 @@
       <button className="btn btn-danger btn-xs" onClick={@start}>enable</button>
 
   render: () ->
-    <div>
+    <div className="bot-controls well">
       Flood bot control: {@renderButtons()}
     </div>
