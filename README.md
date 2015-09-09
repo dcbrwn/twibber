@@ -1,4 +1,4 @@
-# Twibber
+# Twibber [*]
 
 ![Twibber logo](https://cdn.rawgit.com/dcbrwn/twibber/master/public/icons/twibber.svg)
 
@@ -18,3 +18,5 @@ To launch Twibber you need Meteor.JS installed in your system. For linux you can
     curl https://install.meteor.com/ | sh
 
 To launch in development mode just run `meteor` in project folder.
+
+[*]: http://www.urbandictionary.com/define.php?term=Tweeb
