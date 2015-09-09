@@ -2,19 +2,14 @@
   getInitialState: () ->
     posts: []
     skip: 0
-    limit: 0
+    limit: 10
     query: {}
     sort: { moment: -1 }
 
   componentDidMount: () ->
-    Meteor.setInterval (() => @updatePosts()), 1000
-
-    $('#scroll-spy-beacon')
-      .scrollSpy()
-      .on 'scrollSpy:enter', () =>
-        if twibber.posts.find(@state.query).count() > @state.limit
-          @state.limit += 10
-          @updatePosts()
+    debouncedUpdater = _.debounce(_.bind(@updatePosts, @), 1000)
+    twibber.posts.find().observe
+      added: (document) -> debouncedUpdater()
 
   updatePosts: () ->
     posts = twibber.posts
@@ -30,6 +25,11 @@
 
   handleTweebSubmit: (message, user) ->
     twibber.feed.push(message, user)
+
+  handleLazyLoading: () ->
+    if twibber.posts.find(@state.query).count() > @state.limit
+      @state.limit += 10
+      @updatePosts()
 
   render: () ->
     <div>
@@ -47,6 +47,8 @@
         currentFilter={@state.query}
         onFilterChanged={@handleFilterChanges}
       />
-      <TweebList posts={@state.posts}/>
-      <div id="scroll-spy-beacon"></div>
+      <TweebList
+        posts={@state.posts}
+        onBottomReached={@handleLazyLoading}
+      />
     </div>
