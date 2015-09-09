@@ -3,7 +3,7 @@
     e.preventDefault()
     user = React.findDOMNode(this.refs.user).value.trim();
     message = React.findDOMNode(this.refs.message).value.trim();
-    twibber.feed.push(message, user) if user && message
+    @props.onTweebSubmit(message, user) if user && message
 
   render: () ->
     <form onSubmit={@send}>

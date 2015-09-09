@@ -4,14 +4,7 @@
     skip: 0
     limit: 0
     query: {}
-
-  updatePosts: (skip = @state.skip, limit = @state.limit) ->
-    @setState
-      skip: skip
-      limit: limit
-      posts: twibber.posts
-        .find(@state.query, { sort: { moment: -1 }, skip: skip, limit: limit })
-        .fetch()
+    sort: { moment: -1 }
 
   componentDidMount: () ->
     Meteor.setInterval (() => @updatePosts()), 1000
@@ -20,7 +13,23 @@
       .scrollSpy()
       .on 'scrollSpy:enter', () =>
         if twibber.posts.find(@state.query).count() > @state.limit
-          @updatePosts(@state.skip, @state.limit + 10)
+          @state.limit += 10
+          @updatePosts()
+
+  updatePosts: () ->
+    posts = twibber.posts
+      .find(@state.query, { sort: @state.sort, skip: @state.skip, limit: @state.limit })
+
+    @setState
+      posts: posts
+
+  handleFilterChanges: (sort = { moment: -1 }, query = {}) ->
+    @state.sort = sort;
+    @state.query = query;
+    @updatePosts()
+
+  handleTweebSubmit: (message, user) ->
+    twibber.feed.push(message, user)
 
   render: () ->
     <div>
@@ -30,9 +39,13 @@
           <p className="text-muted">recent tweebs</p>
         </div>
       </header>
-      <p className="text-muted">{@state.limit}</p>
-      <TweebInputForm/>
+      <TweebInputForm onTweebSubmit={@handleTweebSubmit}/>
       <hr/>
+      <TweebFilter
+        currentSort={@state.sort}
+        currentFilter={@state.query}
+        onFilterChanged={@handleFilterChanges}
+      />
       <TweebList posts={@state.posts}/>
       <div id="scroll-spy-beacon"></div>
     </div>
