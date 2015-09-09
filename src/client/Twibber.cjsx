@@ -1,10 +1,11 @@
 @Twibber = React.createClass
   getInitialState: () ->
     posts: []
-    skip: 0
-    limit: 10
     query: {}
-    sort: { moment: -1 }
+    projection:
+      skip: 0
+      limit: 10
+      sort: { moment: -1 }
 
   componentDidMount: () ->
     debouncedUpdater = _.debounce(_.bind(@updatePosts, @), 1000)
@@ -12,23 +13,21 @@
       added: (document) -> debouncedUpdater()
 
   updatePosts: () ->
-    posts = twibber.posts
-      .find(@state.query, { sort: @state.sort, skip: @state.skip, limit: @state.limit })
-
     @setState
-      posts: posts
+      posts: twibber.posts.find(@state.query, @state.projection)
 
   handleFilterChanges: (sort = { moment: -1 }, query = {}) ->
-    @state.sort = sort;
-    @state.query = query;
+    @state.projection.sort = sort;
+    @state.projection.query = query;
     @updatePosts()
 
   handleTweebSubmit: (message, user) ->
     twibber.feed.push(message, user)
 
   handleLazyLoading: () ->
-    if twibber.posts.find(@state.query).count() > @state.limit
-      @state.limit += 10
+    if twibber.posts.find(@state.query).count() > @state.projection.limit
+      @state.projection.limit += 10
+      @state.projection.skip += 10 if @state.projection.limit > 30
       @updatePosts()
 
   render: () ->
@@ -43,8 +42,8 @@
       <TweebInputForm onTweebSubmit={@handleTweebSubmit}/>
       <hr/>
       <TweebFilter
-        currentSort={@state.sort}
-        currentFilter={@state.query}
+        projection={@state.projection}
+        query={@state.query}
         onFilterChanged={@handleFilterChanges}
       />
       <TweebList

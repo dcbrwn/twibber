@@ -1,11 +1,11 @@
 @TweebFilter = React.createClass
   sortByTime: () ->
     @props.onFilterChanged
-      moment: (@props.currentSort.moment || 1) * -1
+      moment: (@props.projection.sort.moment || 1) * -1
 
   sortByUser: () ->
     @props.onFilterChanged
-      user: (@props.currentSort.user || 1) * -1
+      user: (@props.projection.sort.user || 1) * -1
 
   render: () ->
     <div>
