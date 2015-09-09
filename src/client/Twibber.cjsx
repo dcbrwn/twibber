@@ -27,7 +27,7 @@
   handleLazyLoading: () ->
     if twibber.posts.find(@state.query).count() > @state.projection.limit
       @state.projection.limit += 10
-      @state.projection.skip += 10 if @state.projection.limit > 30
+      # @state.projection.skip += 10 if @state.projection.limit > 30
       @updatePosts()
 
   render: () ->
