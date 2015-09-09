@@ -1,9 +1,16 @@
 @TweebInputForm = React.createClass
   send: (e) ->
     e.preventDefault()
-    user = React.findDOMNode(this.refs.user).value.trim();
-    message = React.findDOMNode(this.refs.message).value.trim();
-    @props.onTweebSubmit(message, user) if user && message
+    userInput = React.findDOMNode(this.refs.user)
+    messageInput = React.findDOMNode(this.refs.message)
+
+    user = userInput.value.trim();
+    message = messageInput.value.trim();
+
+    if user && message
+      @props.onTweebSubmit(message, user)
+      userInput.value = ''
+      messageInput.value = ''
 
   render: () ->
     <form onSubmit={@send}>
