@@ -8,7 +8,7 @@ meteor-platform
 insecure
 react
 jhartma:cjsx
-twbs:bootstrap
 isaac:scrollspy
 fourseven:scss
 momentjs:moment
+reywood:bootstrap3-sass
