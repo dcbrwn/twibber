@@ -2,13 +2,12 @@
 
 ![Twibber logo](https://rawgit.com/dcbrwn/twibber/master/public/icons/twibber.svg)
 
-Portfolio project with only one purpose: show my skills to potential employers.
+Done as test project during interview. Project is abandoned but I'll keep it in hub for historical reasons :P
 
 ## Details
 
 TODO:
   - search
-  - decompose functionality to components
   - comment code
 
 ## Installation
